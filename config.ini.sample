@@ -1,0 +1,6 @@
+[forvo]
+api_key = "YOUR_FORVO_API_KEY"
+language = "COUNTRY_SHORTCODE"
+
+[anki]
+media_directory = "%HOMEPATH%\Documents\Anki\YOUR_USERNAME_HERE\collection.media"
