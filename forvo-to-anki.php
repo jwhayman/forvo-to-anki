@@ -69,9 +69,6 @@ if (!$config ||
 	!isset($config["media_directory"])) 
 	die("Config file \"config.ini\" missing or invalid.\nPlease see README.md for config settings.\n");
 
-$argv[1] = "A:/Russian/Wordlists/cats.csv";
-$argv[2] = 0;
-
 /**
  * Verify user has input a file and an index for csv parsing
  */
