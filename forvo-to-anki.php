@@ -10,13 +10,30 @@ function getWordList($file, $index) {
         while (($data = fgetcsv($handle)) !== false) {
             if (isset($data[$index])) {
                 echo "Processing row $row.\n";
-                getPronunciation(rtrim($data[$index]));
+                $word = rtrim($data[$index]);
+                if (!pronunciationExists($word)) {
+                    getPronunciation($word);
+                }
             } else die("Invalid index on row $row.\nScript terminated.\n");
             $row++;
         }
         echo "Wordlist processing complete.\n\n";
         file_put_contents("log.txt", "Wordlist processing complete.\n\n", FILE_APPEND);
     }
+}
+
+/**
+ * Verify the word doesn't already exist in Anki
+ * No support in windows *yet* because no unicode support
+ */
+function pronunciationExists($word) {
+    global $config;
+    $exists = file_exists($config["media_directory"] . "\\" . $word . ".mp3");
+    if ($exists) {
+        file_put_contents("log.txt", "Word $word already exists in media collection.\n", FILE_APPEND);
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -37,6 +54,7 @@ function getPronunciation($word) {
     }
     if (empty($json->items)) {
         file_put_contents("log.txt", "No pronunication found for $word.\n", FILE_APPEND);
+        file_put_contents("new_words.txt", "$word\n", FILE_APPEND);
         return;
     }
     
