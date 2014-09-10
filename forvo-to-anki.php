@@ -24,11 +24,12 @@ function getWordList($file, $index) {
 
 /**
  * Verify the word doesn't already exist in Anki
- * No support in windows *yet* because no unicode support
  */
 function pronunciationExists($word) {
     global $config;
-    $exists = file_exists($config["media_directory"] . "\\" . $word . ".mp3");
+
+    $exists = file_exists("wfio://" . $config["media_directory"] . "\\" . $word . ".mp3");
+
     if ($exists) {
         file_put_contents("log.txt", "Word $word already exists in media collection.\n", FILE_APPEND);
         return true;
