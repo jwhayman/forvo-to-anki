@@ -5,11 +5,12 @@
  */
 function getWordList($file, $index) {
     $row = 1;
+    file_put_contents("log.txt", "\n\nProcessing wordlist\t" . date(DATE_COOKIE) . "\n", FILE_APPEND);
     if (($handle = fopen($file, "r")) !== false) {
         while (($data = fgetcsv($handle)) !== false) {
             if (isset($data[$index])) {
                 echo "Processing row $row.\n";
-                getPronunciation($data[$index]);
+                getPronunciation(rtrim($data[$index]));
             } else die("Invalid index on row $row.\nScript terminated.\n");
             $row++;
         }
@@ -86,5 +87,5 @@ if (!$config || !isset($config["api_key"]) || !isset($config["language"]) || !is
  */
 if (isset($argv[1]) && is_file($argv[1]) && isset($argv[2]) && is_numeric($argv[2])) {
     getWordList($argv[1], $argv[2]);
-} else die("Usage:\t\tphp -f forvo-to-anki.php \"path_to_csv_file\" \"index_of_words_to_be_translated\"\nExample:\tphp -f forvo-to-anki.php \"C:\\wordlist.csv\" 1\n");
+} else die("Usage:\t\tphp forvo-to-anki.php \"path_to_csv_file\" \"index_of_words_to_be_translated\"\nExample:\tphp -f forvo-to-anki.php \"C:\\wordlist.csv\" 1\n");
 ?>
